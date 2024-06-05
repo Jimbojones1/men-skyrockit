@@ -9,4 +9,9 @@ router.get('/', function(req, res){
 	res.render('applications/index.ejs')
 })
 
+router.get('/new', function(req, res){
+	res.render('applications/new.ejs')
+})
+
+
 module.exports = router;

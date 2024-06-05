@@ -1,0 +1,12 @@
+
+<nav>
+	<!-- If the User is logged in we want to see the signout button
+    If the user is logged out we want to signup or login -->
+	<% if (user) { %>
+		<a href="/users/<%= user._id %>/applications">Your Apps</a>
+		<a href="/auth/sign-out">sign out</a>
+	<% } else { %>
+		<a href="/auth/sign-up">Sign up</a>
+		<a href="/auth/sign-in">Sign In</a>
+	<% } %>
+</nav>
