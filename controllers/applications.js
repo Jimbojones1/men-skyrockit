@@ -19,10 +19,31 @@ router.get("/", async function (req, res) {
   }
 });
 
-// /users/:userid/applications/new - the full route
+// /users/:userid/applications/new - the full route (New Page to send form for create)
 router.get("/new", function (req, res) {
   res.render("applications/new.ejs");
 });
+
+// /users/:userid/applications/:applicationId - Show Page for application
+router.get('/:applicationId', async function(req, res){
+	try {
+		console.log(req.session, " <--- req.session")
+		// find the currentUser
+		const currentUser = await UserModel.findById(req.session.user._id)
+		// find the application whose id is in the params 
+		// log out the currentUser
+		console.log(currentUser, " <--- currentUser")
+		const application = currentUser.applications.id(req.params.applicationId)
+
+		res.render('applications/show.ejs', {
+			application: application,
+			// application <----- this is equalivent to the above line
+		})
+	} catch(err){
+		console.log(err)
+		res.redirect('/')
+	}
+})
 
 // /users/:userid/applications
 router.post("/", async function (req, res) {
