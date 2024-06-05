@@ -5,8 +5,18 @@ const router = express.Router();
 const UserModel = require("../models/user");
 
 // localhost:3000/users/applications
-router.get("/", function (req, res) {
-  res.render("applications/index.ejs");
+router.get("/", async function (req, res) {
+  try {
+	// Look up the current user from our req.session!
+	const currentUser = await UserModel.findById(req.session.user._id)
+	// log currentUser if you have errors!
+    res.render("applications/index.ejs", {
+		applications: currentUser.applications
+	});
+  } catch (err) {
+    console.log(err);
+    res.redirect("/");
+  }
 });
 
 // /users/:userid/applications/new - the full route
@@ -24,7 +34,7 @@ router.post("/", async function (req, res) {
     currentUser.applications.push(req.body);
     // save that update to the database
     await currentUser.save();
-	console.log(currentUser, " <- currentUser in CREATE")
+    console.log(currentUser, " <- currentUser in CREATE");
     // respond to the client
     res.redirect(`/users/${currentUser._id}/applications`);
   } catch (err) {
