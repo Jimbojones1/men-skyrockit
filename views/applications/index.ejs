@@ -8,6 +8,10 @@
 <body>
 	<%- include('../partials/_navbar') %>
 	<h1>Your Apps</h1>
+	<% if (user) { %>
+		<a href="/users/<%= user._id %>/applications/new">Add an App</a>
+	<% } %>
+	
 	
 </body>
 </html>
