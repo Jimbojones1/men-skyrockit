@@ -7,3 +7,5 @@ function passUserToView(req, res, next){
 }
 
 module.exports = passUserToView
+
+

@@ -1,4 +1,3 @@
-const { application } = require('express');
 const mongoose = require('mongoose');
 
 const applicationSchema = new mongoose.Schema({
@@ -33,7 +32,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  // embedding relationship  = 1 user has many applications
+  // embedding relationship  = 1 user has many applications, an application belongs to a user
   applications: [applicationSchema] // this will be an array of objects that have the shape 
   //of the application schema
 });

@@ -49,9 +49,11 @@ app.get('/', (req, res) => {
   }
 });
 
-
 app.use('/auth', authController);
-app.use('/users/:userId/applications', applicationController)
+
+// isSigned, just makes sure we check every http requrest to the application
+// router, and confirm the user is logged in!
+app.use('/users/:userId/applications', isSignedIn, applicationController)
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);
