@@ -4,6 +4,40 @@ const router = express.Router();
 // applications are embedded in the User model
 const UserModel = require("../models/user");
 
+router.put('/:applicationId', async function(req, res){
+	console.log(req.body)
+	try {
+	const currentUser = await UserModel.findById(req.session.user._id)	
+	// find the the application subdoc
+	const application = currentUser.applications.id(req.params.applicationId);
+	// update the application with the contents of our form aka req.body
+	// mongoose set method updates the subdoc!
+	application.set(req.body)
+	// tell the database we made an update, always save on the parentDoc!
+	await currentUser.save()
+	
+	// redirect to show page!
+	res.redirect(`/users/${currentUser._id}/applications/${req.params.applicationId}`)
+	} catch(err){
+		console.log(err)
+		res.redirect('/')
+	}
+})
+
+
+
+router.get('/:applicationId/edit', async function(req,res){
+	try {
+		const currentUser = await UserModel.findById(req.session.user._id)
+		// find the application we are trying to edit
+		const application = currentUser.applications.id(req.params.applicationId);
+
+		res.render('applications/edit.ejs', {application: application})
+	} catch(err){
+		console.log(err)
+		res.redirect('/')
+	}
+})
 
 router.delete('/:applicationId', async function(req, res){
 	try {
